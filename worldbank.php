@@ -109,7 +109,7 @@ class worldbankapi{
 	const reserves = "FI.RES.TOTL.CD";
 	const imports = "NE.IMP.GNFS.ZS";
 	const budget = "GC.BAL.CASH.GD.ZS";
-	const export = "NE.EXP.GNFS.ZS";
+	const exports = "NE.EXP.GNFS.ZS";
 
 	public $listcountries = array();
 	public $countriesdata = array();
@@ -200,19 +200,65 @@ class worldbankapi{
 
 	}
 
-	public function getpopulation($country,$year1){
+	public function getbudget($country,$year1){
+		$indicator=self::budget;
+		$budget=$this->getindicator($country, $year1, $indicator);
+		return $budget;
+	}
 
+	public function getreserves($country,$year1){
+		$indicator=self::reserves;
+		$reserves=$this->getindicator($country, $year1, $indicator);
+		return $reserves;
+	}
+
+	public function getexports($country,$year1){
+		$indicator=self::exports;
+		$exports=$this->getindicator($country, $year1, $indicator);
+		return $exports;
+	}
+
+	public function getimports($country,$year1){
+		$indicator=self::imports;
+		$imports=$this->getindicator($country, $year1, $indicator);
+		return $imports;
+	}
+
+	public function getinflation($country,$year1){
+		$indicator=self::inflation;
+		$inflation=$this->getindicator($country, $year1, $indicator);
+		return $inflation;
+	}
+
+	public function getsavings($country,$year1){
+		$indicator=self::grosssavings;
+		$savings=$this->getindicator($country, $year1, $indicator);
+		return $savings;
+	}
+
+	public function getpopulation($country,$year1){
+		$indicator=self::totalpopulation;
+		$population=$this->getindicator($country, $year1, $indicator);
+		return $population;
 	}
 
 	public function getgni($country,$year1){
-
+		$indicator=self::gni;
+		$gni=$this->getindicator($country, $year1, $indicator);
+		return $gni;
 	}
 
 	public function getgdp($country, $year1){
+		$indicator="NY.GDP.MKTP.CD";
+		$gdp=$this->getindicator($country, $year1, $indicator);
+		return $gdp;
+	}
+
+	public function getindicator($country, $year1, $indicator){
 		$c1=$this->checkcountry($country);
 		$y1=$this->checkyear($year1);
 		if ($c1!=""){
-			$str1="http://api.worldbank.org/countries/".$c1."/indicators/NY.GDP.MKTP.CD?format=json&date=".$y1;
+			$str1="http://api.worldbank.org/countries/".$c1."/indicators/".$indicator."?format=json&date=".$y1;
 			//echo "str1=$str1";
 			$arr1=$this->sendcommand($str1);
 			$data1=$arr1[1];
@@ -220,9 +266,9 @@ class worldbankapi{
 				$count1=0;
 				foreach($item as $item1){
 					if ($count1==2){
-						$gdp1=$item1;
+						$value1=$item1;
 						//echo "<br>arr2=$gdp1<br>";
-						return $gdp1;
+						return $value1;
 					}
 					$count1++;
 				}
@@ -329,6 +375,11 @@ $wb= new worldbankapi;
 	echo "--------------getcapitalcity------------<br>";
 	$str1=$wb->getcapitalcity("brazil");
 	echo "The capital city of Brazil is $str1<br>";
-
+	echo "--------------getgni--------------------<br>";
+	$str1=$wb->getgni("brazil", "2002:2002");
+	echo "The GNI for Brazil in 2002 is $str1<br>";
+	echo "--------------getpopulation-------------<br>";
+	$str1=$wb->getpopulation("brazil", "2002:2002");
+	echo "The population for Brazil in 2002 is $str1<br>";
 
 ?>
