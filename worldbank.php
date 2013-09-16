@@ -150,8 +150,695 @@ class worldbankapi{
 	public function checkcountry($country){
 		$c1=0;
 		switch($country){
+			case "andorra":
+				$c1="ad";
+				break;
+			case "united arab emirates":
+				$c1="ae";
+				break;
+			case "afghanistan":
+				$c1="af";
+				break;
+			case "antigua and barbuda":
+				$c1="ag";
+				break;
+			case "anguilla":
+				$c1="ai";
+				break;
+			case "albania":
+				$c1="al";
+				break;
+			case "armenia":
+				$c1="am";
+				break;
+			case "angola":
+				$c1="ao";
+				break;
+			case "antarctica":
+				$c1="aq";
+				break;
+			case "argentina":
+				$c1="ar";
+				break;
+			case "american samoa":
+				$c1="as";
+				break;
+			case "austria":
+				$c1="at";
+				break;
+			case "australia":
+				$c1="au";
+				break;
+			case "aruba":
+				$c1="aw";
+				break;
+			case "aland island":
+				$c1="ax";
+				break;
+			case "azerbaijan":
+				$c1="az";
+				break;
+			case "bosnia and herzegovina":
+				$c1="ba";
+				break;
+			case "barbados":
+				$c1="bb";
+				break;
+			case "bangladesh":
+				$c1="bd";
+				break;
+			case "belgium":
+				$c1="be";
+				break;
+			case "burkina faso":
+				$c1="bf";
+				break;
+			case "bulgaria":
+				$c1="bg";
+				break;
+			case "bahrain":
+				$c1="bh";
+				break;
+			case "burundi":
+				$c1="bi";
+				break;
+			case "benin":
+				$c1="bj";
+				break;
+			case "saint barthelemy":
+				$c1="bl";
+				break;
+			case "bermuda":
+				$c1="bm";
+				break;
+			case "brunei darussalam":
+				$c1="bn";
+				break;
+			case "bolivia":
+				$c1="bo";
+				break;
+			case "bonaire":
+				$c1="bq";
+				break;
 			case "brazil":
 				$c1="br";
+				break;
+			case "bahamas":
+				$c1="bs";
+				break;
+			case "bhutan":
+				$c1="bt";
+				break;
+			case "bouvet island":
+				$c1="bv";
+				break;
+			case "botswana":
+				$c1="bw";
+				break;
+			case "belarus":
+				$c1="by";
+				break;
+			case "belize":
+				$c1="bz";
+				break;
+			case "canada":
+				$c1="ca";
+				break;
+			case "cocos islands":
+				$c1="cc";
+				break;
+			case "congo":
+				$c1="cd";
+				break;
+			case "central african republic":
+				$c1="cf";
+				break;
+			case "switzerland":
+				$c1="ch";
+				break;
+			case "cote d'lvoire":
+				$c1="ci";
+				break;
+			case "cook islands":
+				$c1="ck";
+				break;
+			case "chile":
+				$c1="cl";
+				break;
+			case "cameroon":
+				$c1="cm";
+				break;
+			case "china":
+				$c1="cn";
+				break;
+			case "colombia":
+				$c1="co";
+				break;
+			case "costa rica":
+				$c1="cr";
+				break;
+			case "cuba":
+				$c1="cu";
+				break;
+			case "cape verde":
+				$c1="cv";
+				break;
+			case "curacao":
+				$c1="cw";
+				break;
+			case "christmas island":
+				$c1="cx";
+				break;
+			case "cyprus":
+				$c1="cy";
+				break;
+			case "czech republic":
+				$c1="cz";
+				break;
+			case "germany":
+				$c1="de";
+				break;
+			case "djibouti":
+				$c1="dj";
+				break;
+			case "denmark":
+				$c1="dk";
+				break;
+			case "dominica":
+				$c1="dm";
+				break;
+			case "dominican republic":
+				$c1="do";
+				break;
+			case "algeria":
+				$c1="dz";
+				break;
+			case "ecuador":
+				$c1="ec";
+				break;
+			case "estonia":
+				$c1="ee";
+				break;
+			case "egypt":
+				$c1="eg";
+				break;
+			case "western sahara":
+				$c1="eh";
+				break;
+			case "eritrea":
+				$c1="er";
+				break;
+			case "spain":
+				$c1="es";
+				break;
+			case "ethiopia":
+				$c1="et";
+				break;
+			case "finland":
+				$c1="fi";
+				break;
+			case "fiji":
+				$c1="fj";
+				break;
+			case "falkland island":
+				$c1="fk";
+				break;
+			case "micronesia":
+				$c1="fm";
+				break;
+			case "faroe islands":
+				$c1="fo";
+				break;
+			case "france":
+				$c1="fr";
+				break;
+			case "gabon":
+				$c1="ga";
+				break;
+			case "united kingdom":
+				$c1="gb";
+				break;
+			case "grenada":
+				$c1="gd";
+				break;
+			case "georgia":
+				$c1="ge";
+				break;
+			case "french guiana":
+				$c1="gf";
+				break;
+			case "guemsey":
+				$c1="gg";
+				break;
+			case "ghana":
+				$c1="gh";
+				break;
+			case "gibraltar":
+				$c1="gi";
+				break;
+			case "greenland":
+				$c1="gl";
+				break;
+			case "gambia":
+				$c1="gm";
+				break;
+			case "guinea":
+				$c1="gn";
+				break;
+			case "guadeloupe":
+				$c1="gp";
+				break;
+			case "equatorial guinea":
+				$c1="gq";
+				break;
+			case "greece":
+				$c1="gr";
+				break;
+			case "south georgia":
+				$c1="gs";
+				break;
+			case "guatemala":
+				$c1="gt";
+				break;
+			case "guam":
+				$c1="gu";
+				break;
+			case "guinea-bissau":
+				$c1="gw";
+				break;
+			case "guyana":
+				$c1="gy";
+				break;
+			case "hong kong":
+				$c1="hk";
+				break;
+			case "heard island":
+				$c1="hm";
+				break;
+			case "honduras":
+				$c1="hn";
+				break;
+			case "croatia":
+				$c1="hr";
+				break;
+			case "haiti":
+				$c1="ht";
+				break;
+			case "hungary":
+				$c1="hu";
+				break;
+			case "indonesia":
+				$c1="id";
+				break;
+			case "ireland":
+				$c1="ie";
+				break;
+			case "israel":
+				$c1="il";
+				break;
+			case "isle of man":
+				$c1="im";
+				break;
+			case "india":
+				$c1="in";
+				break;
+			case "iraq":
+				$c1="iq";
+				break;
+			case "iran":
+				$c1="ir";
+				break;
+			case "iceland":
+				$c1="is";
+				break;
+			case "italy":
+				$c1="it";
+				break;
+			case "jamaica":
+				$c1="jm";
+				break;
+			case "jordan":
+				$c1="jo";
+				break;
+			case "japan":
+				$c1="jp";
+				break;
+			case "kenya":
+				$c1="ke";
+				break;
+			case "kyrgyzstan":
+				$c1="kg";
+				break;
+			case "cambodia":
+				$c1="kh";
+				break;
+			case "kiribati":
+				$c1="ki";
+				break;
+			case "comoros":
+				$c1="km";
+				break;
+			case "saint kitts and nevis":
+				$c1="kn";
+				break;
+			case "north korea":
+				$c1="kp";
+				break;
+			case "south korea":
+				$c1="kr";
+				break;
+			case "kuwait":
+				$c1="kw";
+				break;
+			case "cayman islands":
+				$c1="ky";
+				break;
+			case "kazakhstan":
+				$c1="kz";
+				break;
+			case "lao":
+				$c1="la";
+				break;
+			case "lebanon":
+				$c1="lb";
+				break;
+			case "saint lucia":
+				$c1="lc";
+				break;
+			case "liechtenstein":
+				$c1="li";
+				break;
+			case "sri lanka":
+				$c1="lk";
+				break;
+			case "liberia":
+				$c1="lr";
+				break;
+			case "lesotho":
+				$c1="ls";
+				break;
+			case "lithuania":
+				$c1="lt";
+				break;
+			case "luxembourg":
+				$c1="lu";
+				break;
+			case "latvia":
+				$c1="lv";
+				break;
+			case "libya":
+				$c1="ly";
+				break;
+			case "morocco":
+				$c1="ma";
+				break;
+			case "monaco":
+				$c1="mc";
+				break;
+			case "moldova":
+				$c1="md";
+				break;
+			case "montenegro":
+				$c1="me";
+				break;
+			case "madagascar":
+				$c1="mg";
+				break;
+			case "marshall islands":
+				$c1="mh";
+				break;
+			case "macedonia":
+				$c1="mk";
+				break;
+			case "mali":
+				$c1="ml";
+				break;
+			case "myanmar":
+				$c1="mm";
+				break;
+			case "mongolia":
+				$c1="mn";
+				break;
+			case "macao":
+				$c1="mo";
+				break;
+			case "martinique":
+				$c1="mq";
+				break;
+			case "mauritania":
+				$c1="mr";
+				break;
+			case "montserrat":
+				$c1="ms";
+				break;
+			case "malta":
+				$c1="mt";
+				break;
+			case "mauritius":
+				$c1="mu";
+				break;
+			case "maldives":
+				$c1="mv";
+				break;
+			case "malawi":
+				$c1="nw";
+				break;
+			case "mexico":
+				$c1="mx";
+				break;
+			case "malaysia":
+				$c1="my";
+				break;
+			case "mozambique":
+				$c1="mz";
+				break;
+			case "namibia":
+				$c1="na";
+				break;
+			case "new caledonia":
+				$c1="nc";
+				break;
+			case "niger":
+				$c1="ne";
+				break;
+			case "norfolk island":
+				$c1="nf";
+				break;
+			case "nigeria":
+				$c1="ng";
+				break;
+			case "nicaragua":
+				$c1="ni";
+				break;
+			case "netherlands":
+				$c1="nl";
+				break;
+			case "norway":
+				$c1="no";
+				break;
+			case "nepel":
+				$c1="np";
+				break;
+			case "nauru":
+				$c1="nr";
+				break;
+			case "niue":
+				$c1="nu";
+				break;
+			case "new zealand":
+				$c1="nz";
+				break;
+			case "oman":
+				$c1="om";
+				break;
+			case "panama":
+				$c1="pa";
+				break;
+			case "peru":
+				$c1="pe";
+				break;
+			case "french polynesia":
+				$c1="pf";
+				break;
+			case "papua new guinea":
+				$c1="pg";
+				break;
+			case "philippines":
+				$c1="ph";
+				break;
+			case "pakistan":
+				$c1="pk";
+				break;
+			case "poland":
+				$c1="pl";
+				break;
+			case "pitcairn":
+				$c1="pn";
+				break;
+			case "puerto rico":
+				$c1="pr";
+				break;
+			case "palestine":
+				$c1="ps";
+				break;
+			case "portugal":
+				$c1="pt";
+				break;
+			case "palau":
+				$c1="pw";
+				break;
+			case "paraguay":
+				$c1="py";
+				break;
+			case "qatar":
+				$c1="qa";
+				break;
+			case "reunion":
+				$c1="re";
+				break;
+			case "romania":
+				$c1="ro";
+				break;
+			case "serbia":
+				$c1="rs";
+				break;
+			case "russian":
+				$c1="ru";
+				break;
+			case "rwanda":
+				$c1="rw";
+				break;
+			case "saudi arabia":
+				$c1="sa";
+				break;
+			case "solomon islands":
+				$c1="sb";
+				break;
+			case "seychelles":
+				$c1="sc";
+				break;
+			case "sudan":
+				$c1="sd";
+				break;
+			case "sweden":
+				$c1="se";
+				break;
+			case "singapore":
+				$c1="sg";
+				break;
+			case "slovakia":
+				$c1="si";
+				break;
+			case "slovakia":
+				$c1="sk";
+				break;
+			case "sierra leone":
+				$c1="sl";
+				break;
+			case "san marino":
+				$c1="sm";
+				break;
+			case "senegal":
+				$c1="sn";
+				break;
+			case "somalia":
+				$c1="so";
+				break;
+			case "suriname":
+				$c1="sr";
+				break;
+			case "el salvador":
+				$c1="sv";
+				break;
+			case "syria":
+				$c1="sy";
+				break;
+			case "swaziland":
+				$c1="sz";
+				break;
+			case "chad":
+				$c1="td";
+				break;
+			case "togo":
+				$c1="tg";
+				break;
+			case "thailand":
+				$c1="th";
+				break;
+			case "tajikistan":
+				$c1="tj";
+				break;
+			case "tokelau":
+				$c1="tk";
+				break;
+			case "timor-leste":
+				$c1="tl";
+				break;
+			case "turkmenistan":
+				$c1="tm";
+				break;
+			case "tunisia":
+				$c1="tn";
+				break;
+			case "tonga":
+				$c1="to";
+				break;
+			case "turkey":
+				$c1="tr";
+				break;
+			case "trinidad":
+				$c1="tt";
+				break;
+			case "tuvalu":
+				$c1="tv";
+				break;
+			case "taiwan":
+				$c1="tw";
+				break;
+			case "tanzania":
+				$c1="tz";
+				break;
+			case "ukraine":
+				$c1="ua";
+				break;
+			case "uganda":
+				$c1="ug";
+				break;
+			case "united states":
+				$c1="us";
+				break;
+			case "uruguay":
+				$c1="uy";
+				break;
+			case "uzbekistan":
+				$c1="uz";
+				break;
+			case "venezuela":
+				$c1="ve";
+				break;
+			case "viet nam":
+				$c1="vn";
+				break;
+			case "vanuatu":
+				$c1="vu";
+				break;
+			case "samoa":
+				$c1="ws";
+				break;
+			case "yemen":
+				$c1="ye";
+				break;
+			case "mayotte":
+				$c1="yt";
+				break;
+			case "south africa":
+				$c1="za";
+				break;
+			case "zambia":
+				$c1="zm";
+				break;
+			case "zimbabwe":
+				$c1="zw";
 				break;
 				
 		}
@@ -188,8 +875,12 @@ class worldbankapi{
 		return $this->countriesdata;
 	}
 
-	public function getindicators(){
+	public function getindicatorinfo($indicator){
+		//http://api.worldbank.org/indicators/NY.GDP.MKTP.CD
+	}
 
+	public function getindicators(){
+		//http://api.worldbank.org/indicators
 	}
 
 	public function getcountrybylending($lending){
@@ -197,7 +888,11 @@ class worldbankapi{
 	}
 		
 	public function gettopics(){
+		//http://api.worldbank.org/topics/
+	}
 
+	public function gettopicinfo($topic){
+		//http://api.worldbank.org/topic/5/indicator
 	}
 
 	public function getbudget($country,$year1){
@@ -381,5 +1076,23 @@ $wb= new worldbankapi;
 	echo "--------------getpopulation-------------<br>";
 	$str1=$wb->getpopulation("brazil", "2002:2002");
 	echo "The population for Brazil in 2002 is $str1<br>";
+	echo "--------------getsavings-------------<br>";
+	$str1=$wb->getsavings("brazil", "2002:2002");
+	echo "The savings for Brazil in 2002 is $str1<br>";
+	echo "--------------getinflation-------------<br>";
+	$str1=$wb->getinflation("brazil", "2002:2002");
+	echo "The inflation for Brazil in 2002 is $str1<br>";
+	echo "--------------getimports-------------<br>";
+	$str1=$wb->getimports("brazil", "2002:2002");
+	echo "The imports for Brazil in 2002 is $str1<br>";
+	echo "--------------getexports---------------<br>";
+	$str1=$wb->getexports("brazil", "2002:2002");
+	echo "The exports for Brazil in 2002 is $str1<br>";
+	echo "--------------getreserves---------------<br>";
+	$str1=$wb->getreserves("brazil", "2002:2002");
+	echo "The reserves for Brazil in 2002 is $str1<br>";
+	echo "--------------getbudget---------------<br>";
+	$str1=$wb->getbudget("brazil", "2002:2002");
+	echo "The budget for Brazil in 2002 is $str1<br>";
 
 ?>
