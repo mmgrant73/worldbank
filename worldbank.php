@@ -48,6 +48,12 @@ class worldbankapi{
 //ppt_dryspell		Average number of days between precipitation events days
 //ppt_means		Average daily precipitation mm
 
+//Lending Type:
+//IBD - IBRD
+//IDB - Blend
+//IDX - IDA
+//LNX - not classified
+
 //Region codes
 
   //  EAP - (developing only)
@@ -113,6 +119,8 @@ class worldbankapi{
 
 	public $listcountries = array();
 	public $countriesdata = array();
+	public $topicdata = array();
+	public $listtopic = array();
 
 	function __construct() {
        		$this->countriesdata["country"]="aaa";
@@ -876,7 +884,22 @@ class worldbankapi{
 	}
 
 	public function getindicatorinfo($indicator){
-		//http://api.worldbank.org/indicators/NY.GDP.MKTP.CD
+		//check indicator
+		$str1="http://api.worldbank.org/indicators/$indicator?format=json";
+		$arr1=$this->sendcommand($str1);
+		$data1=$arr1[1];
+		foreach($data1 as $item){
+				$count1=0;
+				foreach($item as $item1){
+					if ($count1==3){
+						$value1=$item1;
+						return $value1;
+					}
+					//echo "item - $item1";
+					$count1++;
+				}
+			}
+		return 0;
 	}
 
 	public function getindicators(){
@@ -884,11 +907,40 @@ class worldbankapi{
 	}
 
 	public function getcountrybylending($lending){
+		$lending = strtolower($lending);
+		if ($lending=="ibd" || $lending=="idb" || $lending=="idx" || $lending=="lnx"){
+			$str1="http://api.worldbank.org/countries?format=json&lendingType=".$lending;
+			$arr1=$this->sendcommand($str1);
+			$data1=$arr1[1];
+			foreach($data1 as $item) {
+				$this->getcountrydata($item);    				
+				$this->listcountries[]=$this->countriesdata;
+			}
+			return 1;
+		}
+		else{
+			return 0;
+		}
+	}
 
+	public function gettopicdata($item){
+		$value = $item['value'];
+		$note = $item['sourceNote'];
+		$this->topicdata["value"]=$value;
+		$this->topicdata["note"]=$note;
+		return;
 	}
 		
 	public function gettopics(){
-		//http://api.worldbank.org/topics/
+		$str1="http://api.worldbank.org/topics/?format=json";
+		$arr1=$this->sendcommand($str1);
+			$data1=$arr1[1];
+			//var_dump($arr1);
+			foreach($data1 as $item) {
+				$this->gettopicdata($item);    				
+				$this->listtopics[]=$this->topicdata;
+			}
+			return 1;
 	}
 
 	public function gettopicinfo($topic){
@@ -1030,7 +1082,6 @@ class worldbankapi{
 }
 
 function dolistcountries($wb){
-	$wb->countrieswithincome('HIC');
 	foreach($wb->listcountries as $item){
 		$id=$item['country'];
 		$iso2code=$item['iso2code'];
@@ -1056,43 +1107,63 @@ function dolistcountries($wb){
 	return;
 }
 
+function dolisttopics($wb){
+	$wb->gettopics();
+	foreach($wb->listtopics as $item){
+		$value=$item['value'];
+		$note=$item['note'];
+		echo "topic subject - $value<br>";
+		echo "topic description - $note<br>";
+		echo "---------------------------------<br>";
+	}
+}
+
 echo "<h1>test worldbank functions</h1>";
 $wb= new worldbankapi;
 ////List all the countries with high income level////////
 	echo "--------------listcountries-------------------<br>";
+	//$r1=$wb->countrieswithincome('HIC');
 	//dolistcountries($wb);
 	echo "--------------getiso2code------------<br>";
-	$str1=$wb->getiso2code("brazil");
-	echo "The iso2code for Brazil is $str1<br>";
+	//$str1=$wb->getiso2code("brazil");
+	//echo "The iso2code for Brazil is $str1<br>";
 	echo "--------------getcountryGDP------------<br>";
-	$str1=$wb->getgdp("brazil", "2002:2002");
-	echo "The GDP for Brazil in 2002 is $str1<br>";
+	//$str1=$wb->getgdp("brazil", "2002:2002");
+	//echo "The GDP for Brazil in 2002 is $str1<br>";
 	echo "--------------getcapitalcity------------<br>";
-	$str1=$wb->getcapitalcity("brazil");
-	echo "The capital city of Brazil is $str1<br>";
+	//$str1=$wb->getcapitalcity("brazil");
+	//echo "The capital city of Brazil is $str1<br>";
 	echo "--------------getgni--------------------<br>";
-	$str1=$wb->getgni("brazil", "2002:2002");
-	echo "The GNI for Brazil in 2002 is $str1<br>";
+	//$str1=$wb->getgni("brazil", "2002:2002");
+	//echo "The GNI for Brazil in 2002 is $str1<br>";
 	echo "--------------getpopulation-------------<br>";
-	$str1=$wb->getpopulation("brazil", "2002:2002");
-	echo "The population for Brazil in 2002 is $str1<br>";
+	//$str1=$wb->getpopulation("brazil", "2002:2002");
+	//echo "The population for Brazil in 2002 is $str1<br>";
 	echo "--------------getsavings-------------<br>";
-	$str1=$wb->getsavings("brazil", "2002:2002");
-	echo "The savings for Brazil in 2002 is $str1<br>";
+	//$str1=$wb->getsavings("brazil", "2002:2002");
+	//echo "The savings for Brazil in 2002 is $str1<br>";
 	echo "--------------getinflation-------------<br>";
-	$str1=$wb->getinflation("brazil", "2002:2002");
-	echo "The inflation for Brazil in 2002 is $str1<br>";
+	//$str1=$wb->getinflation("brazil", "2002:2002");
+	//echo "The inflation for Brazil in 2002 is $str1<br>";
 	echo "--------------getimports-------------<br>";
-	$str1=$wb->getimports("brazil", "2002:2002");
-	echo "The imports for Brazil in 2002 is $str1<br>";
+	//$str1=$wb->getimports("brazil", "2002:2002");
+	//echo "The imports for Brazil in 2002 is $str1<br>";
 	echo "--------------getexports---------------<br>";
-	$str1=$wb->getexports("brazil", "2002:2002");
-	echo "The exports for Brazil in 2002 is $str1<br>";
+	//$str1=$wb->getexports("brazil", "2002:2002");
+	//echo "The exports for Brazil in 2002 is $str1<br>";
 	echo "--------------getreserves---------------<br>";
-	$str1=$wb->getreserves("brazil", "2002:2002");
-	echo "The reserves for Brazil in 2002 is $str1<br>";
+	//$str1=$wb->getreserves("brazil", "2002:2002");
+	//echo "The reserves for Brazil in 2002 is $str1<br>";
 	echo "--------------getbudget---------------<br>";
-	$str1=$wb->getbudget("brazil", "2002:2002");
-	echo "The budget for Brazil in 2002 is $str1<br>";
+	//$str1=$wb->getbudget("brazil", "2002:2002");
+	//echo "The budget for Brazil in 2002 is $str1<br>";
+	echo "--------------gettopics-------------------<br>";
+	//dolisttopics($wb)
+	echo "-------------getindicatorinfo------------<br>";
+	$d1=$wb->getindicatorinfo($wb::gni);
+	echo "GNI - $d1";
+	echo "-------------getcountrybylending----------<br>";
+	$r1=$wb->getcountrybylending("IDB");
+	dolistcountries($wb);
 
 ?>
