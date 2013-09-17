@@ -51,3 +51,8 @@ The capital city of Brazil is Brasilia
 ```
 Note:  This library is in the alpha stage of development and thus, there will be bugs.  If you find any please feel free to let me know so I can fix them.
 Also, all function is not implement as of yet but will be added as I have the time to work on this project.
+
+Roadmap for version 1.1.0
+-------------------------
+* Will add support for Asynchronous communication.  At the moment it only uses synchronous communication.
+* Will add graphical support using google charts API
