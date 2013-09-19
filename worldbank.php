@@ -122,6 +122,23 @@ class worldbankapi{
 	public $topicdata = array();
 	public $listtopic = array();
 
+	// booleans that tell you rather data is ready from a tread
+	public $ready_couintries; 
+	public $ready_topics;
+	public $ready_data;
+
+	//list of public variables//
+	public $datapopulation= array();
+	public $dataiso2code= array();
+	public $datagdp= array();
+	public $datagni= array();
+	public $datainflation= array();
+	public $datareserves= array();
+	public $dataimports= array();
+	public $dataexports= array();
+	public $databudget= array();
+	public $datacapitalcity=array();
+
 	function __construct() {
        		$this->countriesdata["country"]="aaa";
 		$this->countriesdata["iso2code"]="aa";
@@ -133,7 +150,10 @@ class worldbankapi{
 		$this->countriesdata["capitalcity"]="city";
 		$this->countriesdata["longitude"]=11.11111;
 		$this->countriesdata["latitude"]=11.11111;
-		
+		$this->datapopulation['country']="a";
+		$this->datapopulation['value']="a";
+		$this->datacapitalcity['country']="a";
+		$this->datacapitalcity['value']="a";
    	}
 
 	public function sendcommand($command){
@@ -854,12 +874,20 @@ class worldbankapi{
 	}
 
 	public function getcapitalcity($country){
-		$r1=$this->getcountryinfo($country);
-		if ($r1!=0){
+		if ($this->datacapitalcity['country']==$country){
+			return $this->datacapitalcity['value'];
+		}
+		elseif ($this->countriesdata["iso2code"]==$country){
 			return $this->countriesdata["capitalcity"];
 		}
 		else{
-			return 0;
+			$r1=$this->getcountryinfo($country);
+			if ($r1!=0){
+				return $this->countriesdata["capitalcity"];
+			}
+			else{
+				return 0;
+			}
 		}
 	}
 
@@ -879,6 +907,16 @@ class worldbankapi{
 				echo "error";
 				return 0;
 			}
+		}
+		return $this->countriesdata;
+	}
+
+	public function _getcountryinfo($result){
+		$arr1=json_decode($result,true);
+		$result1=$arr1[1];
+		//var_dump($result1);
+		foreach($result1 as $item){
+			$this->getcountrydata($item);
 		}
 		return $this->countriesdata;
 	}
@@ -989,6 +1027,10 @@ class worldbankapi{
 		return $population;
 	}
 
+	public function getpopulationx($country,$startyear,$endyear){
+
+	}
+
 	public function getgni($country,$year1){
 		$indicator=self::gni;
 		$gni=$this->getindicator($country, $year1, $indicator);
@@ -1071,6 +1113,70 @@ class worldbankapi{
 
 	}
 
+	private function commandresult($resarray){
+		$command=$resarray["command"];
+		$result=$resarray["result"];
+		//var_dump($result);
+		switch($command){
+			case "getcountryinfo":
+				$cdata=$this->_getcountryinfo($result);
+				$r1["command"]=$command;
+				$r1["result"]=$cdata;
+				return $r1;
+				break;
+		}
+	}
+
+	private function addcommand($command,$param){
+		switch($command){
+			case "getcountryinfo":
+				$c1=$param[0];
+				$str1="/countries/$c1";
+				$arr1['command']=$command;
+				$arr1['url']=$str1;
+				return $arr1;
+				break;
+			}
+	}
+
+	private function setmultcommands($command){
+		$param['format']='json';
+		$conn1 = new http('api.worldbank.org', 80,"http",false);
+		$conn1->get($command, $param);
+		return $conn1;
+	}
+
+	public function sendmultcommands($commandarray){
+		//send in a list of commands to get data (ie getiso2code)
+		//stores the result in an array of the following format
+		//{command1 => result1, command2 => result2 ...etc }
+		$connm = new http(null,null,null,true);
+		foreach ($commandarray as $value){
+			$arr1=$this->addcommand($value['command'],$value['param']);
+			$conn1=$this->setmultcommands($arr1["url"]);
+			$connm->add($conn1);
+		}
+    		$out=$connm->run();
+		$c1=0;
+		foreach ($commandarray as $value1){
+			$a1[]=$value1["command"];
+			//echo "command-$value1['command']";
+		}
+		foreach ($out as $value){
+			$d1=$a1[$c1];
+			//echo "command=$d1<br>";
+			//var_dump($value);
+			//echo "<br>";
+			$result1["command"]=$d1;
+			$result1["result"]=$value;
+			$r1=$this->commandresult($result1);
+			$res[]=$r1;
+			$c1++;
+		}
+		//print_r($out);
+		return $res;
+	}
+
 //2russoliver@gmail.com  
 //russell oliver
 //hilliard
@@ -1107,6 +1213,30 @@ function dolistcountries($wb){
 	return;
 }
 
+function dolistcountry($item){
+		$id=$item['country'];
+		$iso2code=$item['iso2code'];
+		$name=$item['name'];
+		$region=$item['region'];
+		$adminregion=$item['adminregion'];
+		$incomelevel=$item['incomelevel'];
+		$capitalcity=$item['capitalcity'];
+		$longitude=$item['longitude'];
+		$latitude=$item['latitude'];
+		$lendingtype=$item['lendingtype'];
+		echo "id=$id<br>";
+		echo "iso2code=$iso2code<br>";
+		echo "name=$name<br>";
+		echo "region=$region<br>";
+		echo "adminregion=$adminregion<br>";
+		echo "incomelevel=$incomelevel<br>";
+		echo "capitalcity=$capitalcity<br>";
+		echo "longitude=$longitude<br>";
+		echo "latitude=$latitude<br>";
+		echo "lendingtype=$lendingtype<br><br>";
+	return;
+}
+
 function dolisttopics($wb){
 	$wb->gettopics();
 	foreach($wb->listtopics as $item){
@@ -1118,6 +1248,10 @@ function dolisttopics($wb){
 	}
 }
 
+
+
+///////////////////////testing main/////////////////////////////
+require_once('http.php');
 echo "<h1>test worldbank functions</h1>";
 $wb= new worldbankapi;
 ////List all the countries with high income level////////
@@ -1160,10 +1294,24 @@ $wb= new worldbankapi;
 	echo "--------------gettopics-------------------<br>";
 	//dolisttopics($wb)
 	echo "-------------getindicatorinfo------------<br>";
-	$d1=$wb->getindicatorinfo($wb::gni);
-	echo "GNI - $d1";
+	//$d1=$wb->getindicatorinfo($wb::gni);
+	//echo "GNI - $d1";
 	echo "-------------getcountrybylending----------<br>";
-	$r1=$wb->getcountrybylending("IDB");
-	dolistcountries($wb);
-
+	//$r1=$wb->getcountrybylending("IDB");
+	//dolistcountries($wb);
+	echo "-------------sendmultcommands-------------<br>";
+	$param1[]="br";
+	$arr1["command"]="getcountryinfo";
+	$arr1["param"]=$param1;
+	$commandsarr[]=$arr1;
+	$param2[]="bg";
+	$arr2["command"]="getcountryinfo";
+	$arr2["param"]=$param2;
+	$commandsarr[]=$arr2;
+	//$commandsarr[]="/countries/BG";
+	$res=$wb->sendmultcommands($commandsarr);
+	foreach ($res as $value){
+		echo $value["command"]."<br>";
+		dolistcountry($value["result"]);
+	}
 ?>
