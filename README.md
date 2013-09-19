@@ -56,3 +56,4 @@ Roadmap for version 1.1.0
 -------------------------
 * Will add support for Asynchronous communication.  At the moment it only uses synchronous communication.
 * Will add graphical support using google charts API
+* Add a caching layer so that it lessen the network traffic and increase performance
