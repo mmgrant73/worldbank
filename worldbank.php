@@ -1,7 +1,13 @@
 <?php
 class worldbankapi{
+///////////////////////Worldbank Clas///////////////////////////
+// Copyright by Matthew Grant 09/19/2013		      //
+// This is a wrapper class for comunicating and retrieving    //
+// information from the worldbank dataset using REST protocol //
+// MIT License - Free to use as you will                      //
+// Proud member of the Zeigteist Movement                     //
+////////////////////////////////////////////////////////////////
 
-//add caching
 
 //Can get a list of values in array form, visualize it in a table or a graph
 
@@ -166,6 +172,7 @@ class worldbankapi{
 	}
 
 	public function getiso2code($country){
+	// Returns the ISO2Code for a country //
 		$r1=$this->getcountryinfo($country);
 		if ($r1!=0){
 			return $this->countriesdata["iso2code"];
@@ -176,6 +183,7 @@ class worldbankapi{
 	}
 
 	public function checkcountry($country){
+	// Returns the 2 letter code for a country //
 		$c1=0;
 		switch($country){
 			case "andorra":
@@ -874,6 +882,8 @@ class worldbankapi{
 	}
 
 	public function getcapitalcity($country){
+	// Returns the capital city for a country //
+	// Cache - looks for the data in the local data before requesting it from worldbank //
 		if ($this->datacapitalcity['country']==$country){
 			return $this->datacapitalcity['value'];
 		}
@@ -892,6 +902,8 @@ class worldbankapi{
 	}
 
 	public function getcountryinfo($country){
+	// Returns an array that hold a varity of data for a country // 
+	// Cache - store the data locally //
 		$r1=$this->checkcountry($country);
 		if ($r1!=$this->countriesdata["iso2code"]){
 			if ($r1!=""){
@@ -911,7 +923,9 @@ class worldbankapi{
 		return $this->countriesdata;
 	}
 
+
 	public function _getcountryinfo($result){
+	// returns country info from a multiple command call //
 		$arr1=json_decode($result,true);
 		$result1=$arr1[1];
 		//var_dump($result1);
@@ -945,6 +959,7 @@ class worldbankapi{
 	}
 
 	public function getcountrybylending($lending){
+	// returns a list of countries with a specfic lending type //
 		$lending = strtolower($lending);
 		if ($lending=="ibd" || $lending=="idb" || $lending=="idx" || $lending=="lnx"){
 			$str1="http://api.worldbank.org/countries?format=json&lendingType=".$lending;
@@ -970,6 +985,7 @@ class worldbankapi{
 	}
 		
 	public function gettopics(){
+	// get a list of topic info //
 		$str1="http://api.worldbank.org/topics/?format=json";
 		$arr1=$this->sendcommand($str1);
 			$data1=$arr1[1];
@@ -986,42 +1002,49 @@ class worldbankapi{
 	}
 
 	public function getbudget($country,$year1){
+	// return the budget for a country for a certain year //
 		$indicator=self::budget;
 		$budget=$this->getindicator($country, $year1, $indicator);
 		return $budget;
 	}
 
 	public function getreserves($country,$year1){
+	// return the reserve for a country for a certain year //
 		$indicator=self::reserves;
 		$reserves=$this->getindicator($country, $year1, $indicator);
 		return $reserves;
 	}
 
 	public function getexports($country,$year1){
+	// return the exports for a country for a certain year //
 		$indicator=self::exports;
 		$exports=$this->getindicator($country, $year1, $indicator);
 		return $exports;
 	}
 
 	public function getimports($country,$year1){
+	// return the imports for a country for a certain year //
 		$indicator=self::imports;
 		$imports=$this->getindicator($country, $year1, $indicator);
 		return $imports;
 	}
 
 	public function getinflation($country,$year1){
+	// return the inflation for a country for a certain year //
 		$indicator=self::inflation;
 		$inflation=$this->getindicator($country, $year1, $indicator);
 		return $inflation;
 	}
 
 	public function getsavings($country,$year1){
+	// return the gross savings for a country for a certain year //
 		$indicator=self::grosssavings;
 		$savings=$this->getindicator($country, $year1, $indicator);
 		return $savings;
 	}
 
 	public function getpopulation($country,$year1){
+	// return the population for a country for a certain year //
 		$indicator=self::totalpopulation;
 		$population=$this->getindicator($country, $year1, $indicator);
 		return $population;
@@ -1032,12 +1055,14 @@ class worldbankapi{
 	}
 
 	public function getgni($country,$year1){
+	// return the gni for a country for a certain year //
 		$indicator=self::gni;
 		$gni=$this->getindicator($country, $year1, $indicator);
 		return $gni;
 	}
 
 	public function getgdp($country, $year1){
+	// return the gdp for a country for a certain year //
 		$indicator="NY.GDP.MKTP.CD";
 		$gdp=$this->getindicator($country, $year1, $indicator);
 		return $gdp;
@@ -1097,6 +1122,7 @@ class worldbankapi{
 	}
 
 	public function countrieswithincome($incomelevel){
+	// return a list of countries with a certain income level //
 		if ($incomelevel=="HIC" || $incomelevel=="HPC" || $incomelevel=="LIC" || $incomelevel=="LMC" || $incomelevel=="LMY" || $incomelevel=="MIC" || $incomelevel=="NOC" || $incomelevel=="OEC" || $incomelevel=="UMC"){
 			$str1="http://api.worldbank.org/countries?format=json&incomeLevel=".$incomelevel;
 			$arr1=$this->sendcommand($str1);
