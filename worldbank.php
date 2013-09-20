@@ -1,6 +1,6 @@
 <?php
 class worldbankapi{
-///////////////////////Worldbank Clas///////////////////////////
+///////////////////////Worldbank Class//////////////////////////
 // Copyright by Matthew Grant 09/19/2013		      //
 // This is a wrapper class for comunicating and retrieving    //
 // information from the worldbank dataset using REST protocol //
@@ -163,23 +163,10 @@ class worldbankapi{
    	}
 
 	public function sendcommand($command){
-		//echo "command-$command<br>";
+		// Blocking call for one command //
 		$json1 = file_get_contents($command);
-		//echo "json1=$json1<br>";
-		//var_dump(json_decode($json1,true));
 		$arr1=json_decode($json1,true);
 		return $arr1;
-	}
-
-	public function getiso2code($country){
-	// Returns the ISO2Code for a country //
-		$r1=$this->getcountryinfo($country);
-		if ($r1!=0){
-			return $this->countriesdata["iso2code"];
-		}
-		else{
-			return 0;
-		}
 	}
 
 	public function checkcountry($country){
@@ -881,16 +868,94 @@ class worldbankapi{
 		return $c1;
 	}
 
+	private function checkcache($country,$value){
+	// cache layer - checks local data before sending a network request // need to finish this
+		if ($value=="country"){
+			if ($this->countriesdata["iso2code"]==$country){
+				return $this->countriesdata;
+			}
+			foreach($this->$listcountries as $country1){
+				if($country1["iso2code"]==$country){
+					return $country1;
+				}
+			}
+			return 0;
+		}
+		if ($value=="capitalcity"){
+			if ($this->datacapitalcity['country']==$country){
+				return $this->datacapitalcity['value'];
+			}
+		}
+		elseif ($value=="iso2code"){
+			if ($this->dataiso2code['country']==$country){
+				return $this->dataiso2code['value'];
+			}
+		}
+		elseif ($value=="population"){
+			if ($this->datapopulation['country']==$country){
+				return $this->datapopulation['value'];
+			}
+		}
+		elseif ($value=="gdp"){
+			if ($this->datagdp['country']==$country){
+				return $this->datagdp['value'];
+			}
+			return 0;
+		}
+		elseif ($value=="gni"){
+			if ($this->datagni['country']==$country){
+				return $this->datagni['value'];
+			}
+			return 0;
+		}
+		elseif ($value=="inflation"){
+			if ($this->datainflation['country']==$country){
+				return $this->datainflation['value'];
+			}
+			return 0;
+		}
+		elseif ($value=="reserves"){
+			if ($this->datareserves['country']==$country){
+				return $this->datareserves['value'];
+			}
+			return 0;
+		}
+		elseif ($value=="exports"){
+			if ($this->dataexports['country']==$country){
+				return $this->dataexports['value'];
+			}
+			return 0;
+		}
+		elseif ($value=="imports"){
+			if ($this->dataimports['country']==$country){
+				return $this->dataimports['value'];
+			}
+			return 0;
+		}
+		elseif ($value=="budget"){
+			if ($this->databudget['country']==$country){
+				return $this->databudget['value'];
+			}
+			return 0;
+		}
+	
+		if ($this->countriesdata["iso2code"]==$country){
+			return $this->countriesdata[$value];
+		}
+
+		foreach($this->$listcountries as $country1){
+			if($country1["iso2code"]==$country){
+				return $country1[$value];
+			}
+		}
+		return 0;
+	}
+
 	public function getcapitalcity($country){
 	// Returns the capital city for a country //
 	// Cache - looks for the data in the local data before requesting it from worldbank //
-		if ($this->datacapitalcity['country']==$country){
-			return $this->datacapitalcity['value'];
-		}
-		elseif ($this->countriesdata["iso2code"]==$country){
-			return $this->countriesdata["capitalcity"];
-		}
-		else{
+		$res=$this->checkcache($country,"capitalcity");
+		if ($res==0){
 			$r1=$this->getcountryinfo($country);
 			if ($r1!=0){
 				return $this->countriesdata["capitalcity"];
@@ -898,6 +963,26 @@ class worldbankapi{
 			else{
 				return 0;
 			}
+		}
+		else{
+			return $res;
+		}
+	}
+
+	public function getiso2code($country){
+	// Returns the ISO2Code for a country //
+		$res=$this->checkcache($country,"iso2code");
+		if ($res==0){
+			$r1=$this->getcountryinfo($country);
+			if ($r1!=0){
+				return $this->countriesdata["iso2code"];
+			}
+			else{
+				return 0;
+			}
+		}
+		else{
+			return $res;
 		}
 	}
 
@@ -1003,48 +1088,93 @@ class worldbankapi{
 
 	public function getbudget($country,$year1){
 	// return the budget for a country for a certain year //
-		$indicator=self::budget;
-		$budget=$this->getindicator($country, $year1, $indicator);
-		return $budget;
+		$res=$this->checkcache($country,"budget");
+		if ($res==0){
+			$indicator=self::budget;
+			$budget=$this->getindicator($country, $year1, $indicator);
+			return $budget;
+		}
+		else{
+			return $res;
+		}
 	}
 
 	public function getreserves($country,$year1){
 	// return the reserve for a country for a certain year //
-		$indicator=self::reserves;
-		$reserves=$this->getindicator($country, $year1, $indicator);
-		return $reserves;
+		$res=$this->checkcache($country,"reserves");
+		if ($res==0){
+			$indicator=self::reserves;
+			$reserves=$this->getindicator($country, $year1, $indicator);
+			return $reserves;
+		}
+		else{
+			return $res;
+		}
 	}
 
 	public function getexports($country,$year1){
 	// return the exports for a country for a certain year //
-		$indicator=self::exports;
-		$exports=$this->getindicator($country, $year1, $indicator);
-		return $exports;
+		$res=$this->checkcache($country,"exports");
+		if ($res==0){
+			$indicator=self::exports;
+			$exports=$this->getindicator($country, $year1, $indicator);
+			return $exports;
+		}
+		else{
+			return $res;
+		}
 	}
 
 	public function getimports($country,$year1){
 	// return the imports for a country for a certain year //
-		$indicator=self::imports;
-		$imports=$this->getindicator($country, $year1, $indicator);
-		return $imports;
+		$res=$this->checkcache($country,"imports");
+		if ($res==0){
+			$indicator=self::imports;
+			$imports=$this->getindicator($country, $year1, $indicator);
+			return $imports;
+		}
+		else{
+			return $res;
+		}
 	}
 
 	public function getinflation($country,$year1){
 	// return the inflation for a country for a certain year //
-		$indicator=self::inflation;
-		$inflation=$this->getindicator($country, $year1, $indicator);
-		return $inflation;
+		$res=$this->checkcache($country,"inflation");
+		if ($res==0){
+			$indicator=self::inflation;
+			$inflation=$this->getindicator($country, $year1, $indicator);
+			return $inflation;
+		}
+		else{
+			return $res;
+		}
 	}
 
 	public function getsavings($country,$year1){
 	// return the gross savings for a country for a certain year //
-		$indicator=self::grosssavings;
-		$savings=$this->getindicator($country, $year1, $indicator);
-		return $savings;
+		$res=$this->checkcache($country,"savings");
+		if ($res==0){
+			$indicator=self::savings;
+			$savings=$this->getindicator($country, $year1, $indicator);
+			return $savings;
+		}
+		else{
+			return $res;
+		}
 	}
 
 	public function getpopulation($country,$year1){
 	// return the population for a country for a certain year //
+		$res=$this->checkcache($country,"population");
+		if ($res==0){
+			$indicator=self::totalpopulation;
+			$population=$this->getindicator($country, $year1, $indicator);
+			return $population;
+		}
+		else{
+			return $res;
+		}
 		$indicator=self::totalpopulation;
 		$population=$this->getindicator($country, $year1, $indicator);
 		return $population;
@@ -1056,16 +1186,28 @@ class worldbankapi{
 
 	public function getgni($country,$year1){
 	// return the gni for a country for a certain year //
-		$indicator=self::gni;
-		$gni=$this->getindicator($country, $year1, $indicator);
-		return $gni;
+		$res=$this->checkcache($country,"gni");
+		if ($res==0){
+			$indicator=self::gni;
+			$gni=$this->getindicator($country, $year1, $indicator);
+			return $gni;
+		}
+		else{
+			return $res;
+		}
 	}
 
 	public function getgdp($country, $year1){
 	// return the gdp for a country for a certain year //
-		$indicator="NY.GDP.MKTP.CD";
-		$gdp=$this->getindicator($country, $year1, $indicator);
-		return $gdp;
+		$res=$this->checkcache($country,"gdp");
+		if ($res==0){
+			$gdp=self::gdp;
+			$gdp=$this->getindicator($country, $year1, $indicator);
+			return $gdp;
+		}
+		else{
+			return $res;
+		}
 	}
 
 	public function getindicator($country, $year1, $indicator){
@@ -1203,13 +1345,6 @@ class worldbankapi{
 		return $res;
 	}
 
-//2russoliver@gmail.com  
-//russell oliver
-//hilliard
-//5/17/1975
-//10/2/1995 keyla leigh oliver
-//leah nicole oliver 7/14/2000
-//willow brook oliver 12/9/11
 	
 }
 
@@ -1326,6 +1461,14 @@ $wb= new worldbankapi;
 	//$r1=$wb->getcountrybylending("IDB");
 	//dolistcountries($wb);
 	echo "-------------sendmultcommands-------------<br>";
+	//This is how one calls mutliple commands at once//
+	//Make an array containing the string "command" and //
+	//an array contain param ($arr1 and $arr2). Call array //
+	//the individual command array.  After creating all //
+	//the individual command array add them to the command//
+	//array list ($commandsarr) and call sendmultcommands //
+	//which return an array that holds an array of each  //
+	//result of each command call.  Results: command => sendcommand, result => result of the command sent //   
 	$param1[]="br";
 	$arr1["command"]="getcountryinfo";
 	$arr1["param"]=$param1;
@@ -1334,7 +1477,6 @@ $wb= new worldbankapi;
 	$arr2["command"]="getcountryinfo";
 	$arr2["param"]=$param2;
 	$commandsarr[]=$arr2;
-	//$commandsarr[]="/countries/BG";
 	$res=$wb->sendmultcommands($commandsarr);
 	foreach ($res as $value){
 		echo $value["command"]."<br>";
